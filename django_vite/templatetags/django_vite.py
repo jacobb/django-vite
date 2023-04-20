@@ -132,6 +132,12 @@ class DjangoViteAssetLoader:
         tags.extend(self._generate_css_files_of_asset(path, []))
 
         # Add the script by itself
+        if manifest_entry["file"].endwith(".css"):
+            tags.append(
+                DjangoViteAssetLoader._generate_css_files_of_asset(
+                    urljoin(DJANGO_VITE_STATIC_URL, manifest_entry["file"]),
+                )
+            )
         tags.append(
             DjangoViteAssetLoader._generate_script_tag(
                 urljoin(DJANGO_VITE_STATIC_URL, manifest_entry["file"]),
